@@ -201,6 +201,10 @@ export class CalendarAdminComponent implements OnInit{
   }
 
   addEvent(): void {
+    if(this.newEvent.title ==='' || this.newEvent.start==='' || this.newEvent.end==='' || this.newEvent.description==='') {
+      this.toastr.error("Please enter all fields");
+    }
+    else {
     let data = {
       title: this.newEvent.title,
       start: this.newEvent.start,
@@ -226,11 +230,16 @@ export class CalendarAdminComponent implements OnInit{
       this.toastr.error("Failed to add event")
   });
   }
+  }
   clearNewEvent() {
     this.newEvent = {};
     this.modal.dismissAll(this.AddMeeting);
   }
   saveEvent(event): void {
+    if(event.title ==='' || event.start==='' || event.end==='' || event.description==='') {
+      this.toastr.error("Please enter all fields");
+    }
+    else{
     this.calendarService.updateEvent(event)
       .subscribe((apiResponse) => {
         this.toastr.success(apiResponse.message)
@@ -243,6 +252,7 @@ export class CalendarAdminComponent implements OnInit{
         this.toastr.error("Failed to add event")
     });
   }
+}
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.calendarService.deleteEvent(eventToDelete)

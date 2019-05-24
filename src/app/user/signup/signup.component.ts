@@ -38,6 +38,12 @@ export class SignupComponent implements OnInit {
     this.phones = phoneJson["default"];
     let mapped1 = Object.keys( this.phones).map(key => ({code: key, phone:  this.phones[key]}));
     this.phones = mapped1;
+    this.countries.sort(function(a, b){
+      if (a.country < b.country) //sort string ascending
+        return -1 
+    if (a.code > b.code)
+        return 1
+  });
   }
 
   public goToSignIn: any = () => {

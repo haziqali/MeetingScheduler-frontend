@@ -1,0 +1,11 @@
+<div class="container-fluid ">
+  <div class="mx-auto col-6 text-center mt-5">
+      <h2>All Users</h2>
+      <p *ngIf="!userList">There are no users</p>
+    <div class="list-group " *ngFor="let user of userList">
+      <button type="button" class="list-group-item list-group-item-action" routerLink = "/{{user.userName}}/calendar-admin">
+          {{user.userName}}
+      </button>  
+    </div>
+  </div>
+</div>

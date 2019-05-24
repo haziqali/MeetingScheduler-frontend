@@ -1,0 +1,243 @@
+<div class="card">
+  <div class="card-header text-center pb-2 mb-5"><Strong>Admin Calendar</Strong></div>
+
+  <div class="row text-center">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()">
+          Previous
+        </div>
+        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+          Today
+        </div>
+        <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()">
+          Next
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+          Month
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+          Week
+        </div>
+        <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+          Day
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+      [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+      [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
+  </div>
+
+  <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+
+  <br /><br /><br />
+
+  <h3>
+    Edit Meetings
+    <button class="btn btn-lg btn-warning pull-right" (click)="openMeetingModal()">
+      <strong>Add new meeting</strong>
+    </button>
+    <div class="clearfix"></div>
+  </h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Starts at</th>
+          <th>Ends at</th>
+          <th>Update / Delete</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="event.title" />
+          </td>
+          <td>
+            <textarea class="form-control" name="desc" rows="2" [(ngModel)]="event.description"
+              #desc='ngModel'></textarea>
+
+          </td>
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start" [altInput]="true"
+              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              placeholder="Not set" />
+          </td>
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" [altInput]="true"
+              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              placeholder="Not set" />
+          </td>
+          <td>
+            <button class="btn btn-primary px-3 mx-3" (click)="saveEvent(event)">
+              Update
+            </button>
+            <button class="btn btn-danger" (click)="deleteEvent(event)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #modalContent let-close="close">
+    <h5 class="card-header text-center">Meeting details</h5>
+    <div class="card-body">
+      <ul class="list-group list-striped list-group-flush">
+        <li class="list-group-item">
+          <h5>Title: {{ modalData.title }}</h5>
+        </li>
+        <li class="list-group-item">
+          <h5>Description: {{ modalData.description }}</h5>
+        </li>
+        <li class="list-group-item">
+          <h5>Start time: {{ modalData.start | date :'short' }}</h5>
+        </li>
+        <li class="list-group-item">
+          <h5>End Time: {{ modalData.end | date :'short' }}</h5>
+        </li>
+        <li class="list-group-item">
+          <h5>Created By: {{ modalData.createdBy }}</h5>
+        </li>
+      </ul>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning mx-auto" (click)="close()">
+        OK
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #AddMeeting let-close="close">
+    <hr />
+    <h3 class="card-header text-center">Add a new meeting</h3>
+    <hr><br />
+    <div class="table-responsive">
+      <table class="table table-bordered">
+
+        <tr>
+          <th>Title</th>
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="newEvent.title" />
+          </td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td><textarea class="form-control" name="message" rows="5" [(ngModel)]="newEvent.description"
+              #message='ngModel'></textarea>
+
+          </td>
+        </tr>
+        <tr>
+          <th>Starts at</th>
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="newEvent.start" [altInput]="true"
+              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              placeholder="Start date" />
+          </td>
+        </tr>
+        <tr>
+          <th>Ends at</th>
+          <td>
+            <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="newEvent.end" [altInput]="true"
+              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              placeholder="End date" />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary mx-auto" (click)="addEvent()">
+        Add Meeting
+      </button>
+      <button type="button" class="btn btn-warning mx-auto" (click)="clearNewEvent()">
+        Cancel
+      </button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #editMeeting let-close="close">
+      <hr />
+      <h3 class="card-header text-center">Edit this meeting</h3>
+      <hr><br />
+      <div class="table-responsive">
+        <table class="table table-bordered">
+  
+          <tr>
+            <th>Title</th>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="modalData.title" />
+            </td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td><textarea class="form-control" name="message" rows="5" [(ngModel)]="modalData.description"
+                #message='ngModel'></textarea>
+  
+            </td>
+          </tr>
+          <tr>
+            <th>Starts at</th>
+            <td>
+              <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData.start" [altInput]="true"
+                [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                placeholder="Start date" />
+            </td>
+          </tr>
+          <tr>
+            <th>Ends at</th>
+            <td>
+              <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData.end" [altInput]="true"
+                [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                placeholder="End date" />
+            </td>
+          </tr>
+        </table>
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary mx-auto" (click)="close()" (click)="saveEvent(modalData)">
+          Update Meeting
+        </button>
+        <button type="button" class="btn btn-warning mx-auto" (click)="close()">
+          Cancel
+        </button>
+      </div>
+    </ng-template>
+
+
+
+
+
+
+
+</div>

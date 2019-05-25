@@ -69,7 +69,6 @@ export class SocketService {
   public eventUpdated = () => {
     return Observable.create((observer) => {
       this.socket.on(`event-updated`, (message) => {
-        console.log(213)
         observer.next(message);
       }); 
     }); // end Observable

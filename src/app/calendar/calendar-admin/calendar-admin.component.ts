@@ -38,7 +38,9 @@ const colors: any = {
 })
 export class CalendarAdminComponent implements OnInit{
 
+  today: Date;
   ngOnInit() {
+    this.today = new Date();
     this.getEventsData();
     this.verifyUserConfirmation();
   
@@ -73,7 +75,6 @@ export class CalendarAdminComponent implements OnInit{
     const userName = this.route.snapshot.params['userName'];
     this.calendarService.getUser(userName)
     .subscribe((apiResponse) => {
-      console.log(apiResponse)
       Cookie.set('userName', userName);
       if(apiResponse.data!==null) {
         let data = apiResponse.data.events
@@ -144,7 +145,6 @@ export class CalendarAdminComponent implements OnInit{
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log(action, event)
     if (action==="Edited") {
       this.modalData = event;
       this.modal.open(this.editMeeting, { size: 'lg' });

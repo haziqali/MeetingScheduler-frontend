@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
              Cookie.set('receiverId', apiResponse.data.userDetails.userId);
              Cookie.set('receiverUserName', apiResponse.data.userDetails.userName);
              Cookie.set('role', apiResponse.data.userDetails.role);
-            console.log(apiResponse.data)
              this.userService.setUserInfoInLocalStorage(apiResponse.data.userDetails);
              if(apiResponse.data.userDetails.role==="admin") {
               this.router.navigate(['/all-users']);

@@ -85,12 +85,12 @@
           </td>
           <td>
             <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start" [altInput]="true"
-              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              [convertModelValue]="true" [minDate]="today" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
               placeholder="Not set" />
           </td>
           <td>
             <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" [altInput]="true"
-              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              [convertModelValue]="true"  [minDate]="event.start" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
               placeholder="Not set" />
           </td>
           <td>
@@ -159,7 +159,7 @@
           <th>Starts at</th>
           <td>
             <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="newEvent.start" [altInput]="true"
-              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              [convertModelValue]="true" [minDate]="today" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
               placeholder="Start date" />
           </td>
         </tr>
@@ -167,7 +167,7 @@
           <th>Ends at</th>
           <td>
             <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="newEvent.end" [altInput]="true"
-              [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+              [convertModelValue]="true" [minDate]="newEvent.start" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
               placeholder="End date" />
           </td>
         </tr>
@@ -209,7 +209,7 @@
             <th>Starts at</th>
             <td>
               <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData.start" [altInput]="true"
-                [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                [convertModelValue]="true" [minDate]="today" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
                 placeholder="Start date" />
             </td>
           </tr>
@@ -217,7 +217,7 @@
             <th>Ends at</th>
             <td>
               <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData.end" [altInput]="true"
-                [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                [convertModelValue]="true" [minDate]="modalData.start" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
                 placeholder="End date" />
             </td>
           </tr>

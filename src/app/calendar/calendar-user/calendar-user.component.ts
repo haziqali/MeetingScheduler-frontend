@@ -161,7 +161,6 @@ export class CalendarUserComponent implements OnInit {
     .subscribe((apiResponse) => {
       Cookie.set('userName', userName);
       if(apiResponse.data!==null) {
-        console.log()
         let data = apiResponse.data.events
         this.events = data.map(obj => { 
           obj.end = new Date(obj.end);

@@ -9,7 +9,7 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 export class CalendarService {
   
 
-  private url =  'http://localhost:3000/api/v1/';
+  private url =  'http://api.themeetingscheduler.tk/api/v1/';
 
   constructor( public http: HttpClient) { }
 

@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
         router.events.forEach((event) => {
           console.log(Cookie.get("receiverUserName"))
           if (event instanceof NavigationStart) {
-            if (event['url'] === '/sign-up' || event['url'] ==="/login" || event['url'] ==="/" || event['url']==="/forgotpassword") {
+            if (event['url'] === '/sign-up' || event['url'] ==="/login" || event['url'] ==="/logout"|| event['url'] ==="/" || event['url']==="/forgotpassword") {
               this.showHead = false;
             } else {
               this.showHead = true;

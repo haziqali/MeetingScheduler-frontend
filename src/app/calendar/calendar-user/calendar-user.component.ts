@@ -113,6 +113,7 @@ export class CalendarUserComponent implements OnInit {
     let temp = this.events.map(x => (x.start.getTime() - today.getTime())/60000);
     let diffMs = temp.some(el => el>=0 && el <=30) 
     if(diffMs) {
+      this.modal.dismissAll(this.meetingInvite);
       this.modal.open(this.meetingInvite, { size: 'lg' });
     };
   }

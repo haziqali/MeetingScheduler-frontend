@@ -17,7 +17,7 @@ import { UserService } from './user/user.service';
 @Injectable()
 export class SocketService {
 
-  private url = 'http://localhost:3000';
+  private url = 'http://api.themeetingscheduler.tk';
 
   private socket;
 

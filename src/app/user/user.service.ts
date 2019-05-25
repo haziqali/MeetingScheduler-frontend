@@ -14,7 +14,7 @@ import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 export class UserService {
  
 
-  private url =  'http://localhost:3000';
+  private url =  'http://api.themeetingscheduler.tk';
 
   constructor(
     public http: HttpClient

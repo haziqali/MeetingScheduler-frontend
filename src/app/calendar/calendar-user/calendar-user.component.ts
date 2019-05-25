@@ -77,6 +77,9 @@ export class CalendarUserComponent implements OnInit {
   ngOnInit() {
     this.getEventsData();
     this.verifyUserConfirmation();
+    this.eventAdded();
+    this.eventUpdated();
+    this.eventDeleted();
     this.subscription = interval(5000).subscribe(val => this.checkMeeting());
   }
 
@@ -123,6 +126,28 @@ export class CalendarUserComponent implements OnInit {
         this.socketService.setUser(Cookie.get("authtoken"));
       });
     }
+
+    public eventAdded: any = () =>  {
+      this.socketService.eventAdded()
+      .subscribe((message) => {
+        this.toastr.success(message);
+      })
+    }
+
+    public eventUpdated: any = () =>  {
+      this.socketService.eventUpdated()
+      .subscribe((message) => {
+        this.toastr.success(message);
+      })
+    }
+
+    public eventDeleted: any = () =>  {
+      this.socketService.eventDeleted()
+      .subscribe((message) => {
+        this.toastr.success(message);
+      })
+    }
+  
 
   
     destroySub() {

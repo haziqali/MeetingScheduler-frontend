@@ -41,9 +41,7 @@ export class CalendarAdminComponent implements OnInit{
   ngOnInit() {
     this.getEventsData();
     this.verifyUserConfirmation();
-    this.eventAdded();
-    this.eventUpdated();
-    this.eventDeleted();
+  
   }
 
   constructor(private modal: NgbModal, private socketService: SocketService, private calendarService: CalendarService, private route: ActivatedRoute, private toastr: ToastrService) {}
@@ -60,17 +58,6 @@ export class CalendarAdminComponent implements OnInit{
 
   viewDate: Date = new Date();
 
-  public checkMeeting: any =() => {
-    if(Cookie.get("userName") === Cookie.get("receiverUserName")) {
-    let today = new Date();
-    let temp = this.events.map(x => (x.start.getTime() - today.getTime())/60000);
-    let diffMs = temp.some(el => el>=0 && el <=30) 
-    if(diffMs) {
-      document.getElementById("openModalButton").click();
-    };
-  }
-   
-  }
 
   public verifyUserConfirmation: any = () => {
 
@@ -80,26 +67,6 @@ export class CalendarAdminComponent implements OnInit{
       });
     }
 
-    public eventAdded: any = () =>  {
-      this.socketService.eventAdded()
-      .subscribe((message) => {
-        this.toastr.success(message);
-      })
-    }
-
-    public eventUpdated: any = () =>  {
-      this.socketService.eventUpdated()
-      .subscribe((message) => {
-        this.toastr.success(message);
-      })
-    }
-
-    public eventDeleted: any = () =>  {
-      this.socketService.eventDeleted()
-      .subscribe((message) => {
-        this.toastr.success(message);
-      })
-    }
   
 
   getEventsData() {
@@ -109,7 +76,6 @@ export class CalendarAdminComponent implements OnInit{
       console.log(apiResponse)
       Cookie.set('userName', userName);
       if(apiResponse.data!==null) {
-        console.log()
         let data = apiResponse.data.events
         this.events = data.map(obj =>{ 
           obj.end = new Date(obj.end)
@@ -178,6 +144,7 @@ export class CalendarAdminComponent implements OnInit{
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
+    console.log(action, event)
     if (action==="Edited") {
       this.modalData = event;
       this.modal.open(this.editMeeting, { size: 'lg' });

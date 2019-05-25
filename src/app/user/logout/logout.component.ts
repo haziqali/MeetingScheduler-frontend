@@ -19,7 +19,7 @@ export class LogoutComponent implements OnInit {
     .subscribe((apiResponse) => {
       if (apiResponse.status === 200) { 
           Cookie.deleteAll();
-          this.socketService.exitSocket()
+          this.socketService.exitSocket();
         
       
 

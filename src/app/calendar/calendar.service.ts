@@ -45,7 +45,6 @@ export class CalendarService {
     .set('end', data.end.toJSON())
     .set('description', data.description)
     .set('id', data._id)
-    console.log(data._id)
   return this.http.post(`${this.url}events/updateEvent`, params);
   }
 

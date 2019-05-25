@@ -39,6 +39,7 @@ export class SocketService {
 
   public exitSocket = () =>{
     this.socket.disconnect();
+    this.socket.emit("disconnect");
   }
 
   public setUser = (authToken) => {
@@ -68,6 +69,7 @@ export class SocketService {
   public eventUpdated = () => {
     return Observable.create((observer) => {
       this.socket.on(`event-updated`, (message) => {
+        console.log(213)
         observer.next(message);
       }); 
     }); // end Observable
